@@ -1,0 +1,5 @@
+#######################################
+# Django 2 by Example by Antonio Mele #
+#      These are my study notes       #
+#######################################
+
