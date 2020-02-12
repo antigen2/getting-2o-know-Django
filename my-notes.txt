@@ -3,3 +3,43 @@
 #      These are my study notes       #
 #######################################
 
+Создать новый проект mysite:
+django-admin startproject mysite
+
+myproject/          # папка проекта (я ее переименовал)
+├── manage.py       # улита управления проектом
+└── mysite          # папка проекта
+    ├── asgi.py     #
+    ├── __init__.py #
+    ├── settings.py # конфигурация нашего проекта
+    ├── urls.py     # связывает обработчики с URL
+    └── wsgi.py     #
+
+Запуск миграции, создание БД:
+python manage.py migrate
+
+Запуск сервера разработки на порту 8080:
+python manage.py runserver 8080
+
+Создание приложения blog:
+python manage.py startapp blog
+
+blog/
+├── admin.py        # регистрация моделей в системе администрирования
+├── apps.py         # конфигурация приложения blog
+├── __init__.py     #
+├── migrations      # папка с миграциями БД для приложения blog
+│   └── __init__.py #
+├── models.py       # модели данных приложения
+├── tests.py        # для создания тестов
+└── views.py        # логика приложения
+
+Инициализация миграции для модели Post:
+python manage.py makemigrations blog
+
+Приминение миграции БД:
+python manage.py migrate
+
+Создание администратора:
+python manage.py createsuperuser
+
