@@ -1,6 +1,14 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
+
+
+# Новый менеджер можели
+class PublishedManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(status='published')
 
 
 class Post(models.Model):
@@ -12,7 +20,9 @@ class Post(models.Model):
     )
     # Поле заголовка статьи
     title = models.CharField(max_length=250)
-    # поле для формирования уникальных URL для статей
+    # слаг - это поле для формирования уникальных URL для статей
+    # unique_for_date='publish' - слаг будет уникальным для статей,
+    # созданных в один день
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     # внешний ключ (один ко многим - автор многих статей)
     # related_name - имя обратной связи от User к Post
@@ -30,6 +40,11 @@ class Post(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
                               default='draft')
 
+    # Менеджер модели по умолчанию
+    objects = models.Manager()
+    # Новый менеджер модели
+    published = PublishedManager()
+
     # Содержит метаданные модели
     class Meta:
         # Пордок сортировки статей по умолчанию:
@@ -39,3 +54,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail',
+                       args=[self.publish.year, self.publish.month,
+                             self.publish.day, self.slug]
+                       )

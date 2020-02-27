@@ -32,7 +32,7 @@ blog/
 │   └── __init__.py #
 ├── models.py       # модели данных приложения
 ├── tests.py        # для создания тестов
-└── views.py        # логика приложения
+└── views.py        # логика приложения, обработчики событий
 
 Инициализация миграции для модели Post:
 python manage.py makemigrations blog
@@ -43,3 +43,19 @@ python manage.py migrate
 Создание администратора:
 python manage.py createsuperuser
 
+==========
+from django.contrib.auth.models import User
+from blog.models import Post
+user = User.objects.get(username='admin')
+post = Post(title='Another post', slug='another-post', body='Post body.', author=user)
+
+==========
+
+------------------- HTML -------------------
+{% tag %} - шаблонные теги
+{{ variable }} - переменные шаблона
+{{ variable|filter }} - шаблонные фильтры
+https://docs.djangoproject.com/en/2.0/ref/templates/builtins/
+--------------------------------------------
+
+45
