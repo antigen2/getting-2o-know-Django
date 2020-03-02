@@ -1,6 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
+
+
+# аналог ф-ии post_list(request)
+class PostListView(ListView):
+    # переопрелелили запрос, только опубликованные
+    queryset = Post.published.all()
+    # posts - переменная контекста HTML шаблона,
+    # в кот. будет храниться список объектов (object_list по умолчанию)
+    context_object_name = 'posts'
+    # отображать по 3 объекта на страницу
+    paginate_by = 3
+    # шаблон для формирования страницы
+    template_name = 'blog/post/list.html'
 
 
 # Обработчик постов. request - объект запроса
